@@ -1,70 +1,24 @@
-# Getting Started with Create React App
+# fetch-err-waitfor-mcve
+This is _another_ quick MCVE (Minimal, Complete, Verifiable example) to demonstrate what I think could be a bug/unexpected behavior in either React 18 or RTL 13.4.  OTOH, it could just be that I'm doing it wrong<sup>TM</sup>. :-)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Background
 
-## Available Scripts
+When we upgraded to React 18 and RTL 13.4, a number of existing tests started to fail assertions.  The common denominator between these tests is that they involved:
 
-In the project directory, you can run:
+1. a fetch error, 
+1. rendering of an error message component, 
+1. then a function call to do some logging of the error detail.  This logging function was returned from a custom hook.
 
-### `npm start`
+The failing assertion is expecting the logging function call to be made.  It will only pass consistently if it is wrapped in `waitFor`.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+I plan to open an issue (question) with the RTL maintainers so I understand why we see this behavior.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## How to use this repo
+After `npm i`, use `npm t` to run the tests in watch mode, and see the error.  **It occurs almost randomly**, so please hit "enter" in watch mode several times if you don't see it right away.  There are two tests you can try, one that generates the error, and one that does NOT.  The only difference is the use of `waitFor` on passing test.  
 
-### `npm test`
+If you prefer, you can use `npm run test:nowatch`.  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Using `npm start` will open the test application in a browser to see it visually, if desired.  
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Warning
+The API endpoint this uses will occasionally have CORS errors, when testing in a browser.  I wonder if the API owner is load balancing servers and one of them doesn't allow CORS.  Simply keep trying if you get such an error.
