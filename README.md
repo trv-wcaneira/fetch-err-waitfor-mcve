@@ -24,7 +24,9 @@ After `npm i`, use `npm t` to run the tests in watch mode, and see the error.  I
     Number of calls: 0
 ```
 
-**The error occurs almost randomly**, so please hit "enter" in watch mode several times if you don't see it right away.  There are two tests you can try, one that generates the error, and one that does NOT.  The only difference is the use of `waitFor` on passing test.  
+On my OSX build, **the error occurs almost randomly**, so please hit "enter" in watch mode several times if you don't see it right away.  On my Windows machine, it fails consistently.
+
+There are two tests you can try, one that generates the error, and one that does NOT.  The only difference is the use of `waitFor` on passing test.  
 
 If you prefer, you can use `npm run test:nowatch`.  
 
