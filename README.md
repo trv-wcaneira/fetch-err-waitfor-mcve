@@ -7,9 +7,7 @@ When we upgraded to React 18 and RTL 13.4, a number of existing tests started to
 
 1. a fetch error, 
 1. rendering of an error message component, 
-1. a function call<sup>*</sup> in a useEffect of the error message component that does some logging of the error detail.  
-
-<sup>*</sup> This logging function was returned from a custom hook, but in my testing the hook isn't essential to the test.  A function simply imported from another module is sufficient to demo this.
+1. a function call in a useEffect of the error message component that does some logging of the error detail.  This logging function was returned from a custom hook, but in my testing the hook isn't essential to the test.  A function simply imported from another module is sufficient to demo this.
 
 The failing assertion is expecting the logging function call to be made.  It will only pass consistently if it is wrapped in `waitFor`.
 
